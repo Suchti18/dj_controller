@@ -4,6 +4,10 @@
   text-align: center;
 }
 
+.hidden {
+  opacity: 0;
+}
+
 .controller {
   border: 1px solid black;
   padding: 2rem 2rem;
@@ -55,6 +59,7 @@
 .startMusicButtons {
   display: grid;
   grid-gap: 0.5rem;
+  cursor: default;
 }
 
 .startButton {
@@ -63,6 +68,10 @@
   height: 3rem;
   width: 3rem;
   border-radius: 50%;
+  color: limegreen;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .queButton {
@@ -71,6 +80,10 @@
   height: 3rem;
   width: 3rem;
   border-radius: 50%;
+  color: darkorange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .fxButtons {
@@ -92,6 +105,14 @@
 .tempoSlider {
   background-color: black;
   height: 7rem;
+  width: 3.5rem;
+}
+
+.tempoSlider > input[type=range] {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  vertical-align: middle;
+  height: 6.8rem;
   width: 3.5rem;
 }
 

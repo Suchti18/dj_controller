@@ -14,24 +14,76 @@
 
 .right {
   display: inline-block;
-  border: 1px solid red;
-  background-color: blue;
+  border: 0 solid black;
+  border-radius: 0 1rem 1rem 0;
+  background-color: #242424;
   padding: 1rem 1rem;
   vertical-align: middle;
 }
 
 .center {
   display: inline-block;
-  border: 1px solid red;
-  background-color: blue;
+  background-color: #242424;
   padding: 1rem 1rem;
   vertical-align: middle;
 }
 
 .left {
   display: inline-block;
-  border: 1px solid red;
-  background-color: blue;
+  border: 0 solid black;
+  border-radius: 1rem 0 0 1rem;
+  background-color: #242424;
   padding: 1rem 1rem;
   vertical-align: middle;
+}
+
+.controls {
+  display: flex;
+  grid-gap: 1rem;
+  padding-top: 1rem;
+}
+
+.jogwheel {
+  background-color: black;
+  border: 1px solid dodgerblue;
+  height: 20rem;
+  width: 20rem;
+  border-radius: 50%;
+}
+
+.startMusicButtons {
+  display: grid;
+  grid-gap: 0.5rem;
+}
+
+.startButton {
+  background-color: black;
+  border: 1px solid limegreen;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+}
+
+.queButton {
+  background-color: black;
+  border: 1px solid darkorange;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+}
+
+.fxButtons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.2rem;
+  padding-top: 0.5rem;
+}
+
+.fxButtons > div {
+  border: 3px solid darkorange;
+  padding: 10px;
+  height: 1rem;
+  width: 1rem;
+  font-size: 30px;
+  text-align: center;
 }

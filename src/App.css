@@ -5,11 +5,12 @@
 }
 
 .controller {
-  display: inline-block;
   border: 1px solid black;
-  margin: 1rem;
   padding: 2rem 2rem;
   overflow: hidden;
+  display: flex;
+  text-align: center;
+  justify-content: center;
 }
 
 .right {
@@ -45,7 +46,7 @@
 
 .jogwheel {
   background-color: black;
-  border: 1px solid dodgerblue;
+  border: 1px solid darkorange;
   height: 20rem;
   width: 20rem;
   border-radius: 50%;
@@ -86,4 +87,32 @@
   width: 1rem;
   font-size: 30px;
   text-align: center;
+}
+
+.tempoSlider {
+  background-color: black;
+  height: 7rem;
+  width: 3.5rem;
+}
+
+.center {
+  display: grid;
+  justify-items: center;
+}
+
+.mixer {
+  display: flex;
+  grid-gap: 1rem;
+}
+
+.channel {
+  background-color: black;
+  height: 24rem;
+  width: 3.5rem;
+}
+
+.positionSlider {
+  background-color: black;
+  height: 3.5rem;
+  width: 7rem;
 }

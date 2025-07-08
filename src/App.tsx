@@ -128,7 +128,7 @@ function App() {
                       <div></div>
                       <div></div>
                   </div>
-                  <div className="tempoSlider">
+                  <div className="slider">
                       <div className="ticks">
                           <span className="tick"></span>
                           <span className="tick"></span>

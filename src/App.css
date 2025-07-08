@@ -1,9 +1,3 @@
-#root {
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
 .hidden {
   opacity: 0;
 }
@@ -11,7 +5,6 @@
 .controller {
   border: 1px solid black;
   padding: 2rem 2rem;
-  overflow: hidden;
   display: flex;
   text-align: center;
   justify-content: center;
@@ -118,7 +111,7 @@
   text-align: center;
 }
 
-.tempoSlider {
+.slider {
   height: 7rem;
   width: 3.5rem;
   display: flex;
@@ -128,7 +121,7 @@
 }
 
 /* Tick marks */
-.tempoSlider .ticks {
+.slider .ticks {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -138,23 +131,23 @@
   pointer-events: none;
 }
 
-.tempoSlider .ticks span {
+.slider .ticks span {
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-top: 2px solid black;
 }
 
-.tempoSlider .ticks span:first-child {
+.slider .ticks span:first-child {
   border-top-width: 4px;
 }
-.tempoSlider .ticks span:last-child {
+.slider .ticks span:last-child {
   border-bottom: 4px solid black;
   border-top: 0;
 }
 
 /* Slider */
-.tempoSlider > input[type=range] {
+.slider > input[type=range] {
   writing-mode: vertical-lr;
   direction: rtl;
   height: 6.8rem;
@@ -166,19 +159,19 @@
 }
 
 /* Track */
-.tempoSlider > input[type="range"]::-webkit-slider-runnable-track {
+.slider > input[type="range"]::-webkit-slider-runnable-track {
   background: transparent;
   border-radius: 2px;
-  height: 2vh;
+  height: 3rem;
   cursor: pointer;
 }
 
 /* Thumb */
-.tempoSlider > input[type="range"]::-webkit-slider-thumb {
+.slider > input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   margin-top: -1vh;
-  height: 4vh;
-  width: 2vw;
+  height: 2.3rem;
+  width: 1.5rem;
   border: 0.5vmin solid white;
   border-radius: 2px;
   background-color: white;

@@ -1,21 +1,13 @@
-# React + TypeScript + Vite
+# DJ Controller
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-While this project uses React, Vite supports many popular JS frameworks. [See all the supported frameworks](https://vitejs.dev/guide/#scaffolding-your-first-vite-project).
+This is a web-based DJ-Controller. 
 
-## Deploy Your Own
+## Usage
 
-Deploy your own Vite project with Vercel.
+Visit: _https://vite-react-example.vercel.app_
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/framework-boilerplates/vite-react&template=vite-react)
+### Select a song
 
-_Live Example: https://vite-react-example.vercel.app_
-
-### Deploying From Your Terminal
-
-You can deploy your new Vite project with a single command from your terminal using [Vercel CLI](https://vercel.com/download):
-
-```shell
-$ vercel
-```
+Click on a Jog-wheel and press the play button

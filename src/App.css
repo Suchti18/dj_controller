@@ -145,9 +145,12 @@
   border-top: 2px solid black;
 }
 
-.tempoSlider .ticks span:first-child,
-.tempoSlider .ticks span:last-child {
+.tempoSlider .ticks span:first-child {
   border-top-width: 4px;
+}
+.tempoSlider .ticks span:last-child {
+  border-bottom: 4px solid black;
+  border-top: 0;
 }
 
 /* Slider */

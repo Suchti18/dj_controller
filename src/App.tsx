@@ -1,5 +1,5 @@
 import './App.css'
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import * as React from "react";
 import {parseBlob} from "music-metadata-browser";
 
@@ -8,6 +8,10 @@ function App() {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [audioSrc, setAudioSrc] = useState<string | null>(null);
     const [coverUrl, setCoverUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+
+    }, []);
 
     const handlePlay = () => {
         if(audioRef.current?.paused) {
@@ -134,7 +138,7 @@ function App() {
                       </div>
                       <input
                           type="range"
-                          min="0.5"
+                          min="0.0"
                           defaultValue="1.0"
                           max="2.0"
                           step="0.01"

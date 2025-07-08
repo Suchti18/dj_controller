@@ -125,13 +125,19 @@ function App() {
                       <div></div>
                   </div>
                   <div className="tempoSlider">
+                      <div className="ticks">
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                      </div>
                       <input
                           type="range"
                           min="0.5"
                           defaultValue="1.0"
                           max="2.0"
                           step="0.01"
-                          data-action="volume"
                           onChange={handleSetTempo}
                       />
                   </div>

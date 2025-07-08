@@ -119,17 +119,67 @@
 }
 
 .tempoSlider {
-  background-color: black;
   height: 7rem;
   width: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
+/* Tick marks */
+.tempoSlider .ticks {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.tempoSlider .ticks span {
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 2px solid black;
+}
+
+.tempoSlider .ticks span:first-child,
+.tempoSlider .ticks span:last-child {
+  border-top-width: 4px;
+}
+
+/* Slider */
 .tempoSlider > input[type=range] {
   writing-mode: vertical-lr;
   direction: rtl;
-  vertical-align: middle;
   height: 6.8rem;
-  width: 3.5rem;
+  background: black;
+  width: 2px;
+  margin: 0;
+  position: relative;
+  -webkit-appearance: none;
+}
+
+/* Track */
+.tempoSlider > input[type="range"]::-webkit-slider-runnable-track {
+  background: transparent;
+  border-radius: 2px;
+  height: 2vh;
+  cursor: pointer;
+}
+
+/* Thumb */
+.tempoSlider > input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -1vh;
+  height: 4vh;
+  width: 2vw;
+  border: 0.5vmin solid white;
+  border-radius: 2px;
+  background-color: white;
+  cursor: pointer;
 }
 
 .center {

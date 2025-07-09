@@ -1,5 +1,5 @@
 import './App.css'
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import * as React from "react";
 import {parseBlob} from "music-metadata-browser";
 
@@ -10,17 +10,13 @@ function App() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [coverUrl, setCoverUrl] = useState<string | null>(null);
 
-    useEffect(() => {
-        audioRef.current?.addEventListener('play', () => setIsPlaying(true))
-        audioRef.current?.addEventListener('pause', () => setIsPlaying(false))
-        audioRef.current?.addEventListener('ended', () => setIsPlaying(false))
-    }, []);
-
     const handlePlay = () => {
         if(audioRef.current?.paused) {
             audioRef.current?.play();
+            setIsPlaying(true);
         } else {
             audioRef.current?.pause();
+            setIsPlaying(false);
 
             if (audioRef.current) {
                 audioRef.current.currentTime = 0;
@@ -64,6 +60,8 @@ function App() {
         const file = e.target.files?.[0];
         if (!file) return;
 
+        setIsPlaying(false);
+
         if (file) {
             const url = URL.createObjectURL(file);
             setAudioSrc(url);
@@ -85,6 +83,8 @@ function App() {
                 setCoverUrl(null);
             }
         }
+
+        audioRef.current?.addEventListener('ended', () => setIsPlaying(false))
     };
 
     const handleSetTempo = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,7 +131,7 @@ function App() {
                       <div></div>
                       <div></div>
                   </div>
-                  <div className="slider">
+                  <div className="tempoSlider">
                       <div className="ticks">
                           <span className="tick"></span>
                           <span className="tick"></span>
@@ -160,20 +160,45 @@ function App() {
                   </div>
               </div>
               <div className="positionSlider">
-
+                      <div className="ticks">
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                      </div>
+                      <input
+                          type="range"
+                          min="0.0"
+                          defaultValue="1.0"
+                          max="2.0"
+                          step="0.01"
+                          onChange={console.log}
+                      />
               </div>
           </div>
           <div className="right">
-              <div className="jogwheel">
+              <div className={`jogwheel ${coverUrl && isPlaying ? 'spin' : ''} ${coverUrl ? 'loaded' : ''}`} onClick={handleClick}>
+                  <input type="file" accept="video/*, audio/*" ref={inputRef} onChange={handleFileChange} className="hidden"/>
+
+                  {coverUrl && (
+                      <img src={coverUrl} alt="Cover" className="w-48 h-48 object-cover rounded" />
+                  )}
+
+                  {audioSrc && (
+                      <audio src={audioSrc} ref={audioRef} className="hidden">
+                          Dein Browser unterstützt kein Audio.
+                      </audio>
+                  )}
 
               </div>
               <div className="controls">
                   <div className="startMusicButtons">
                       <div className="queButton">
-
+                          Que
                       </div>
-                      <div className="startButton">
-
+                      <div className="startButton" onClick={handlePlay}>
+                          Play
                       </div>
                   </div>
                   <div className="fxButtons">
@@ -187,7 +212,21 @@ function App() {
                       <div></div>
                   </div>
                   <div className="tempoSlider">
-
+                      <div className="ticks">
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                          <span className="tick"></span>
+                      </div>
+                      <input
+                          type="range"
+                          min="0.0"
+                          defaultValue="1.0"
+                          max="2.0"
+                          step="0.01"
+                          onChange={handleSetTempo}
+                      />
                   </div>
               </div>
           </div>

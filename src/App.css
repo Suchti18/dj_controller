@@ -49,6 +49,7 @@
   border-radius: 50%;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .jogwheel.loaded {
@@ -82,11 +83,10 @@
   z-index: 2;
 }
 
-
 .startMusicButtons {
   display: grid;
   grid-gap: 0.5rem;
-  cursor: default;
+  cursor: pointer;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
@@ -130,9 +130,10 @@
   width: 1rem;
   font-size: 30px;
   text-align: center;
+  cursor: pointer;
 }
 
-.slider {
+.tempoSlider {
   height: 7rem;
   width: 3.5rem;
   display: flex;
@@ -142,7 +143,7 @@
 }
 
 /* Tick marks */
-.slider .ticks {
+.tempoSlider .ticks {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -152,23 +153,23 @@
   pointer-events: none;
 }
 
-.slider .ticks span {
+.tempoSlider .ticks span {
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-top: 2px solid black;
 }
 
-.slider .ticks span:first-child {
+.tempoSlider .ticks span:first-child {
   border-top-width: 4px;
 }
-.slider .ticks span:last-child {
+.tempoSlider .ticks span:last-child {
   border-bottom: 4px solid black;
   border-top: 0;
 }
 
 /* Slider */
-.slider > input[type=range] {
+.tempoSlider > input[type=range] {
   writing-mode: vertical-lr;
   direction: rtl;
   height: 6.8rem;
@@ -180,15 +181,14 @@
 }
 
 /* Track */
-.slider > input[type="range"]::-webkit-slider-runnable-track {
+.tempoSlider > input[type=range]::-webkit-slider-runnable-track {
   background: transparent;
   border-radius: 2px;
   height: 3rem;
-  cursor: pointer;
 }
 
 /* Thumb */
-.slider > input[type="range"]::-webkit-slider-thumb {
+.tempoSlider > input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   margin-top: -1vh;
   height: 2.3rem;
@@ -198,6 +198,84 @@
   background-color: white;
   cursor: pointer;
 }
+
+/* Position slider */
+.positionSlider {
+  height: 3.5rem;
+  width: 7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Tick marks */
+.positionSlider .ticks {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row; /* horizontal statt vertical */
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.positionSlider .ticks span {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 2px solid black; /* Spitze zeigt nach rechts */
+  border-right: 0;
+}
+
+.positionSlider .ticks span:first-child {
+  border-left: 0;
+  border-right: 4px solid black;
+}
+
+.positionSlider .ticks span:last-child {
+  border-left: 4px solid black;
+  border-right: 0;
+}
+
+.positionSlider .ticks span:nth-child(2) {
+  width: 2px;
+  height: 12px;
+  background-color: black;
+  border: none;
+}
+
+/* Slider */
+.positionSlider > input[type=range] {
+  width: 100%;
+  height: 2px;
+  background: black;
+  margin: 0;
+  position: relative;
+  -webkit-appearance: none;
+}
+
+/* Track */
+.positionSlider > input[type=range]::-webkit-slider-runnable-track {
+  background: transparent;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* Thumb */
+.positionSlider > input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -0.65rem; /* vertikal zentrieren */
+  height: 1.5rem;
+  width: 1rem;
+  border: 0.3vmin solid white;
+  border-radius: 2px;
+  background-color: white;
+  cursor: pointer;
+}
+
 
 .center {
   display: grid;
@@ -213,10 +291,4 @@
   background-color: black;
   height: 24rem;
   width: 3.5rem;
-}
-
-.positionSlider {
-  background-color: black;
-  height: 3.5rem;
-  width: 7rem;
 }

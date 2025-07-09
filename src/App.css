@@ -51,6 +51,26 @@
   overflow: hidden;
 }
 
+.jogwheel.loaded {
+  background: radial-gradient(black 60%, #222 62%, black 64%, #111 66%, black 100%);
+  border: 1px solid darkorange;
+  height: 20rem;
+  width: 20rem;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+
+.jogwheel.spin {
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 .jogwheel > img {
   width: 5rem;
   height: 5rem;
@@ -59,6 +79,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
 

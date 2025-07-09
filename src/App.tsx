@@ -7,10 +7,13 @@ function App() {
     const inputRef = useRef(null);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [audioSrc, setAudioSrc] = useState<string | null>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [coverUrl, setCoverUrl] = useState<string | null>(null);
 
     useEffect(() => {
-
+        audioRef.current?.addEventListener('play', () => setIsPlaying(true))
+        audioRef.current?.addEventListener('pause', () => setIsPlaying(false))
+        audioRef.current?.addEventListener('ended', () => setIsPlaying(false))
     }, []);
 
     const handlePlay = () => {
@@ -95,7 +98,7 @@ function App() {
     <>
       <div className="controller">
           <div className="left">
-              <div className="jogwheel" onClick={handleClick}>
+              <div className={`jogwheel ${coverUrl && isPlaying ? 'spin' : ''} ${coverUrl ? 'loaded' : ''}`} onClick={handleClick}>
                   <input type="file" accept="video/*, audio/*" ref={inputRef} onChange={handleFileChange} className="hidden"/>
 
                   {coverUrl && (

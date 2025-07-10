@@ -6,7 +6,7 @@ This is a web-based DJ-Controller.
 
 ## Usage
 
-Visit: _https://vite-react-example.vercel.app_
+Visit: _https://djcontroller.vercel.app/_
 
 ### Select a song
 

@@ -117,7 +117,7 @@ function App() {
                       <div className="queButton">
                           Que
                       </div>
-                      <div className="startButton" onClick={handlePlay}>
+                      <div className={`startButton ${!isPlaying && audioRef.current ? 'startButtonBlink' : ''}`} onClick={handlePlay}>
                           Play
                       </div>
                   </div>

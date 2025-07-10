@@ -104,6 +104,15 @@
   align-items: center;
 }
 
+.startButtonBlink {
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  from { color: limegreen; border-color: limegreen; }
+  to   { color: darkgreen; border-color: darkgreen; }
+}
+
 .queButton {
   background-color: black;
   border: 1px solid darkorange;

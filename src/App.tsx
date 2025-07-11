@@ -10,24 +10,50 @@ function App() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [coverUrl, setCoverUrl] = useState<string | null>(null);
 
-    const handlePlay = () => {
-        if(audioRef.current?.paused) {
-            audioRef.current?.play();
-            setIsPlaying(true);
-        } else {
-            audioRef.current?.pause();
-            setIsPlaying(false);
+    const inputRef2 = useRef(null);
+    const audioRef2 = useRef<HTMLAudioElement>(null);
+    const [audioSrc2, setAudioSrc2] = useState<string | null>(null);
+    const [isPlaying2, setIsPlaying2] = useState(false);
+    const [coverUrl2, setCoverUrl2] = useState<string | null>(null);
 
-            if (audioRef.current) {
-                audioRef.current.currentTime = 0;
+    const handlePlay = (deck: "left" | "right") => {
+        if(deck === "left") {
+            if(audioRef.current?.paused) {
+                audioRef.current?.play();
+                setIsPlaying(true);
+            } else {
+                audioRef.current?.pause();
+                setIsPlaying(false);
+
+                if (audioRef.current) {
+                    audioRef.current.currentTime = 0;
+                }
+            }
+        } else {
+            if(audioRef2.current?.paused) {
+                audioRef2.current?.play();
+                setIsPlaying2(true);
+            } else {
+                audioRef2.current?.pause();
+                setIsPlaying2(false);
+
+                if (audioRef2.current) {
+                    audioRef2.current.currentTime = 0;
+                }
             }
         }
     };
 
-    const handleClick = () => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        inputRef.current?.click();
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if(e.currentTarget.parentElement?.className === "left") {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            inputRef.current?.click();
+        } else {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            inputRef2.current?.click();
+        }
     };
 
     const generateThumbnail = (file: File): Promise<string> => {
@@ -56,41 +82,69 @@ function App() {
         });
     };
 
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, deck: 'left' | 'right') => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        setIsPlaying(false);
+        if (deck === 'left') {
+            setIsPlaying(false);
+        } else {
+            setIsPlaying2(false);
+        }
 
-        if (file) {
-            const url = URL.createObjectURL(file);
+        const url = URL.createObjectURL(file);
+        if (deck === 'left') {
             setAudioSrc(url);
+        } else {
+            setAudioSrc2(url);
         }
 
         const metadata = await parseBlob(file);
         const picture = metadata.common.picture?.[0];
+
         if (picture) {
             const blob = new Blob([picture.data], { type: picture.format });
             const url = URL.createObjectURL(blob);
-            console.log("cover")
-            setCoverUrl(url);
-        } else {
-            if (file.type.startsWith("video/")) {
-                const thumb = await generateThumbnail(file);
+
+            if (deck === 'left') {
+                setCoverUrl(url);
+            } else {
+                setCoverUrl2(url);
+            }
+        } else if (file.type.startsWith("video/")) {
+            const thumb = await generateThumbnail(file);
+            if (deck === 'left') {
                 setCoverUrl(thumb);
             } else {
-                console.log("no cover")
+                setCoverUrl2(thumb);
+            }
+        } else {
+            if (deck === 'left') {
                 setCoverUrl(null);
+            } else {
+                setCoverUrl2(null);
             }
         }
 
-        audioRef.current?.addEventListener('ended', () => setIsPlaying(false))
+        if (deck === 'left') {
+            audioRef.current?.addEventListener('ended', () => setIsPlaying(false));
+        } else {
+            audioRef2.current?.addEventListener('ended', () => setIsPlaying2(false));
+        }
     };
 
-    const handleSetTempo = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newTempo = parseFloat(event.target.value);
-        if (audioRef.current) {
-            audioRef.current.playbackRate = newTempo;
+    const handleSetTempo = (e: React.ChangeEvent<HTMLInputElement>, deck: "left" | "right") => {
+        const newTempo = parseFloat(e.target.value);
+
+        if(deck === "left") {
+            if (audioRef.current) {
+                audioRef.current.playbackRate = newTempo;
+            }
+        }
+        else {
+            if (audioRef2.current) {
+                audioRef2.current.playbackRate = newTempo;
+            }
         }
     };
 
@@ -98,8 +152,8 @@ function App() {
     <>
       <div className="controller">
           <div className="left">
-              <div className={`jogwheel ${coverUrl && isPlaying ? 'spin' : ''} ${coverUrl ? 'loaded' : ''}`} onClick={handleClick}>
-                  <input type="file" accept="video/*, audio/*" ref={inputRef} onChange={handleFileChange} className="hidden"/>
+              <div className={`jogwheel ${coverUrl && isPlaying ? 'spin' : ''} ${coverUrl ? 'loaded' : ''}`} onClick={(e) => handleClick(e)}>
+                  <input type="file" accept="video/*, audio/*" ref={inputRef} onChange={(e) => handleFileChange(e, "left")} className="hidden"/>
 
                   {coverUrl && (
                       <img src={coverUrl} alt="Cover" className="w-48 h-48 object-cover rounded" />
@@ -117,7 +171,7 @@ function App() {
                       <div className="queButton">
                           Que
                       </div>
-                      <div className={`startButton ${!isPlaying && audioRef.current ? 'startButtonBlink' : ''}`} onClick={handlePlay}>
+                      <div className={`startButton ${!isPlaying && audioRef.current ? 'startButtonBlink' : ''}`} onClick={() => handlePlay("left")}>
                           Play
                       </div>
                   </div>
@@ -145,7 +199,7 @@ function App() {
                           defaultValue="1.0"
                           max="2.0"
                           step="0.01"
-                          onChange={handleSetTempo}
+                          onChange={(e) => handleSetTempo(e, "left")}
                       />
                   </div>
               </div>
@@ -178,15 +232,15 @@ function App() {
               </div>
           </div>
           <div className="right">
-              <div className={`jogwheel ${coverUrl && isPlaying ? 'spin' : ''} ${coverUrl ? 'loaded' : ''}`} onClick={handleClick}>
-                  <input type="file" accept="video/*, audio/*" ref={inputRef} onChange={handleFileChange} className="hidden"/>
+              <div className={`jogwheel ${coverUrl2 && isPlaying2 ? 'spin' : ''} ${coverUrl2 ? 'loaded' : ''}`} onClick={(e) => handleClick(e)}>
+                  <input type="file" accept="video/*, audio/*" ref={inputRef2} onChange={(e) => handleFileChange(e, "right")} className="hidden"/>
 
-                  {coverUrl && (
-                      <img src={coverUrl} alt="Cover" className="w-48 h-48 object-cover rounded" />
+                  {coverUrl2 && (
+                      <img src={coverUrl2} alt="Cover" className="w-48 h-48 object-cover rounded" />
                   )}
 
-                  {audioSrc && (
-                      <audio src={audioSrc} ref={audioRef} className="hidden">
+                  {audioSrc2 && (
+                      <audio src={audioSrc2} ref={audioRef2} className="hidden">
                           Dein Browser unterstützt kein Audio.
                       </audio>
                   )}
@@ -197,7 +251,7 @@ function App() {
                       <div className="queButton">
                           Que
                       </div>
-                      <div className="startButton" onClick={handlePlay}>
+                      <div className={`startButton ${!isPlaying2 && audioRef2.current ? 'startButtonBlink' : ''}`} onClick={() => handlePlay("right")}>
                           Play
                       </div>
                   </div>
@@ -225,7 +279,7 @@ function App() {
                           defaultValue="1.0"
                           max="2.0"
                           step="0.01"
-                          onChange={handleSetTempo}
+                          onChange={(e) => handleSetTempo(e, "right")}
                       />
                   </div>
               </div>

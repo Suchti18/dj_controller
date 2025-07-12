@@ -137,16 +137,29 @@ function App() {
         const newTempo = parseFloat(e.target.value);
 
         if(deck === "left") {
-            if (audioRef.current) {
+            if(audioRef.current) {
                 audioRef.current.playbackRate = newTempo;
             }
-        }
-        else {
-            if (audioRef2.current) {
+        } else {
+            if(audioRef2.current) {
                 audioRef2.current.playbackRate = newTempo;
             }
         }
     };
+
+    const handleSetVolume = (e: React.ChangeEvent<HTMLInputElement>, deck: "left" | "right") => {
+        const newVolume = parseFloat(e.target.value);
+
+        if(deck === "left") {
+            if(audioRef.current) {
+                audioRef.current.volume = newVolume;
+            }
+        } else {
+            if(audioRef2.current) {
+                audioRef2.current.volume = newVolume;
+            }
+        }
+    }
 
     return (
     <>
@@ -199,7 +212,7 @@ function App() {
                           defaultValue="1.0"
                           max="2.0"
                           step="0.01"
-                          onChange={(e) => handleSetTempo(e, "left")}
+                          onChange={(e) => handleSetVolume(e, "left")}
                       />
                   </div>
               </div>
@@ -225,7 +238,7 @@ function App() {
                               defaultValue="1.0"
                               max="2.0"
                               step="0.01"
-                              onChange={console.log}
+                              onChange={(e) => handleSetVolume(e, "left")}
                           />
                       </div>
                   </div>
@@ -248,7 +261,7 @@ function App() {
                               defaultValue="1.0"
                               max="2.0"
                               step="0.01"
-                              onChange={console.log}
+                              onChange={(e) => handleSetTempo(e, "right")}
                           />
                       </div>
                   </div>

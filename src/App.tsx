@@ -207,10 +207,50 @@ function App() {
           <div className="center">
               <div className="mixer">
                   <div className="channel">
-
+                      <div className="hi"/>
+                      <div className="mid"/>
+                      <div className="low"/>
+                      <div className="cfx"/>
+                      <div className="volumeSlider">
+                          <div className="ticks">
+                              <span className="tick"></span>
+                              <span className="tick"></span>
+                              <span className="tick"></span>
+                              <span className="tick"></span>
+                              <span className="tick"></span>
+                          </div>
+                          <input
+                              type="range"
+                              min="0.0"
+                              defaultValue="1.0"
+                              max="2.0"
+                              step="0.01"
+                              onChange={console.log}
+                          />
+                      </div>
                   </div>
                   <div className="channel">
-
+                      <div className="hi"/>
+                      <div className="mid"/>
+                      <div className="low"/>
+                      <div className="cfx"/>
+                      <div className="volumeSlider">
+                          <div className="ticks">
+                              <span className="tick"></span>
+                              <span className="tick"></span>
+                              <span className="tick"></span>
+                              <span className="tick"></span>
+                              <span className="tick"></span>
+                          </div>
+                          <input
+                              type="range"
+                              min="0.0"
+                              defaultValue="1.0"
+                              max="2.0"
+                              step="0.01"
+                              onChange={console.log}
+                          />
+                      </div>
                   </div>
               </div>
               <div className="positionSlider">

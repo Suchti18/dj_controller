@@ -285,6 +285,73 @@
   cursor: pointer;
 }
 
+/* Volume slider */
+.volumeSlider {
+  height: 7rem;
+  width: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 1.5rem;
+}
+
+/* Tick marks */
+.volumeSlider .ticks {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.volumeSlider .ticks span {
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 2px solid black;
+}
+
+.volumeSlider .ticks span:first-child {
+  border-top-width: 4px;
+}
+.volumeSlider .ticks span:last-child {
+  border-bottom: 4px solid black;
+  border-top: 0;
+}
+
+/* Slider */
+.volumeSlider > input[type=range] {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  height: 6.8rem;
+  background: black;
+  width: 2px;
+  margin: 0;
+  position: relative;
+  -webkit-appearance: none;
+}
+
+/* Track */
+.volumeSlider > input[type=range]::-webkit-slider-runnable-track {
+  background: transparent;
+  border-radius: 2px;
+  height: 3rem;
+}
+
+/* Thumb */
+.volumeSlider > input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -1vh;
+  height: 2.3rem;
+  width: 1.5rem;
+  border: 0.5vmin solid white;
+  border-radius: 2px;
+  background-color: white;
+  cursor: pointer;
+}
 
 .center {
   display: grid;
@@ -297,7 +364,44 @@
 }
 
 .channel {
-  background-color: black;
   height: 24rem;
   width: 3.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-self: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.hi {
+  height: 2rem;
+  width: 2rem;
+  background-color: black;
+  border: 1px solid darkorange;
+  border-radius: 50%;
+}
+
+.mid {
+  height: 2rem;
+  width: 2rem;
+  background-color: black;
+  border: 1px solid darkorange;
+  border-radius: 50%;
+}
+
+.low {
+  height: 2rem;
+  width: 2rem;
+  background-color: black;
+  border: 1px solid darkorange;
+  border-radius: 50%;
+}
+
+.cfx {
+  height: 2rem;
+  width: 2rem;
+  background-color: black;
+  border: 1px solid darkorange;
+  border-radius: 50%;
 }

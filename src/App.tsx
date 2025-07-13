@@ -2,6 +2,7 @@ import './App.css'
 import {useRef, useState} from "react";
 import * as React from "react";
 import {parseBlob} from "music-metadata-browser";
+import { Knob } from 'primereact/knob';
 
 function App() {
     const inputRef = useRef(null);
@@ -15,6 +16,8 @@ function App() {
     const [audioSrc2, setAudioSrc2] = useState<string | null>(null);
     const [isPlaying2, setIsPlaying2] = useState(false);
     const [coverUrl2, setCoverUrl2] = useState<string | null>(null);
+
+    const [hiValue, setHiValue] = useState<number | null>(50);
 
     const handlePlay = (deck: "left" | "right") => {
         if(deck === "left") {
@@ -220,10 +223,10 @@ function App() {
           <div className="center">
               <div className="mixer">
                   <div className="channel">
-                      <div className="hi"/>
-                      <div className="mid"/>
-                      <div className="low"/>
-                      <div className="cfx"/>
+                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'Hi'} onChange={(e) => setHiValue(e.value)} />
+                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'mid'} onChange={(e) => setHiValue(e.value)} />
+                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'low'} onChange={(e) => setHiValue(e.value)} />
+                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'cfx'} onChange={(e) => setHiValue(e.value)} />
                       <div className="volumeSlider">
                           <div className="ticks">
                               <span className="tick"></span>
@@ -238,15 +241,15 @@ function App() {
                               defaultValue="1.0"
                               max="2.0"
                               step="0.01"
-                              onChange={(e) => handleSetVolume(e, "left")}
+                              onChange={(e) => handleSetTempo(e, "right")}
                           />
                       </div>
                   </div>
                   <div className="channel">
-                      <div className="hi"/>
-                      <div className="mid"/>
-                      <div className="low"/>
-                      <div className="cfx"/>
+                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'Hi'} onChange={(e) => setHiValue(e.value)} />
+                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'mid'} onChange={(e) => setHiValue(e.value)} />
+                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'low'} onChange={(e) => setHiValue(e.value)} />
+                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'cfx'} onChange={(e) => setHiValue(e.value)} />
                       <div className="volumeSlider">
                           <div className="ticks">
                               <span className="tick"></span>

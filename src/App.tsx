@@ -215,7 +215,7 @@ function App() {
                           defaultValue="1.0"
                           max="2.0"
                           step="0.01"
-                          onChange={(e) => handleSetVolume(e, "left")}
+                          onChange={(e) => handleSetTempo(e, "left")}
                       />
                   </div>
               </div>
@@ -239,9 +239,9 @@ function App() {
                               type="range"
                               min="0.0"
                               defaultValue="1.0"
-                              max="2.0"
+                              max="1.0"
                               step="0.01"
-                              onChange={(e) => handleSetTempo(e, "right")}
+                              onChange={(e) => handleSetVolume(e, "left")}
                           />
                       </div>
                   </div>
@@ -262,9 +262,9 @@ function App() {
                               type="range"
                               min="0.0"
                               defaultValue="1.0"
-                              max="2.0"
+                              max="1.0"
                               step="0.01"
-                              onChange={(e) => handleSetTempo(e, "right")}
+                              onChange={(e) => handleSetVolume(e, "right")}
                           />
                       </div>
                   </div>

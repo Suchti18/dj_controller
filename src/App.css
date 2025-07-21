@@ -208,6 +208,16 @@
   cursor: pointer;
 }
 
+/* Thumb (Firefox) */
+.tempoSlider > input[type=range]::-moz-range-thumb {
+  height: 2.3rem;
+  width: 1.3rem;
+  border: 0.5vmin solid white;
+  border-radius: 2px;
+  background-color: white;
+  cursor: pointer;
+}
+
 /* Position slider */
 .positionSlider {
   height: 3.5rem;
@@ -224,7 +234,7 @@
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row; /* horizontal statt vertical */
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   pointer-events: none;
@@ -235,7 +245,7 @@
   height: 0;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-  border-left: 2px solid black; /* Spitze zeigt nach rechts */
+  border-left: 2px solid black;
   border-right: 0;
 }
 
@@ -266,17 +276,27 @@
   -webkit-appearance: none;
 }
 
-/* Track */
+/* Track (Chrome & Safari)*/
 .positionSlider > input[type=range]::-webkit-slider-runnable-track {
   background: transparent;
   height: 3px;
   border-radius: 2px;
 }
 
-/* Thumb */
+/* Thumb (Chrome & Safari)*/
 .positionSlider > input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   margin-top: -0.65rem; /* vertikal zentrieren */
+  height: 1.5rem;
+  width: 1rem;
+  border: 0.3vmin solid white;
+  border-radius: 2px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Thumb (Firefox) */
+.positionSlider > input[type=range]::-moz-range-thumb {
   height: 1.5rem;
   width: 1rem;
   border: 0.3vmin solid white;
@@ -334,19 +354,29 @@
   -webkit-appearance: none;
 }
 
-/* Track */
+/* Track (Chrome & Safari) */
 .volumeSlider > input[type=range]::-webkit-slider-runnable-track {
   background: transparent;
   border-radius: 2px;
   height: 3rem;
 }
 
-/* Thumb */
+/* Thumb (Chrome & Safari) */
 .volumeSlider > input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   margin-top: -1vh;
   height: 2.3rem;
   width: 1.5rem;
+  border: 0.5vmin solid white;
+  border-radius: 2px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Thumb (Firefox) */
+.volumeSlider > input[type=range]::-moz-range-thumb {
+  height: 2.3rem;
+  width: 1.3rem;
   border: 0.5vmin solid white;
   border-radius: 2px;
   background-color: white;

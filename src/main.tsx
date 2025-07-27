@@ -10,19 +10,15 @@ function App() {
 
     return (
         <>
-            <div className="controller">
-                <Player ref={leftPlayerRef} side={"left"}/>
-                <Mixer playerRefs={[leftPlayerRef, rightPlayerRef]}/>
-                <Player ref={rightPlayerRef} side={"right"}/>
-            </div>
+            <StrictMode>
+                <div className="controller">
+                    <Player ref={leftPlayerRef} side={"left"}/>
+                    <Mixer playerRefs={[leftPlayerRef, rightPlayerRef]}/>
+                    <Player ref={rightPlayerRef} side={"right"}/>
+                </div>
+            </StrictMode>
         </>
     )
 }
 
-
-
-createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-        <App/>
-    </StrictMode>
-)
+createRoot(document.getElementById('root')!).render(App())

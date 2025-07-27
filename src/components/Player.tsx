@@ -1,62 +1,50 @@
 import './Player.css'
-import {useRef, useState} from "react";
+import {forwardRef, useImperativeHandle, useRef, useState} from "react";
 import * as React from "react";
 import {parseBlob} from "music-metadata-browser";
-import { Knob } from 'primereact/knob';
 
-function Player() {
-    const inputRef = useRef(null);
+export interface DJPlayer {
+    // Refs
+    inputRef: HTMLInputElement | null;
+    audioRef: HTMLAudioElement | null;
+
+    // State getters
+    getAudioSrc: () => string | null;
+    getIsPlaying: () => boolean;
+    getCoverUrl: () => string | null;
+
+    // State setters
+    setIsPlaying: (playing: boolean) => void;
+    setAudioSrc: (src: string | null) => void;
+    setCoverUrl: (url: string | null) => void;
+}
+
+interface DJPlayerProps {
+    side?: "left" | "right" | "none";
+}
+
+const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
+    const inputRef = useRef<HTMLInputElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [audioSrc, setAudioSrc] = useState<string | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [coverUrl, setCoverUrl] = useState<string | null>(null);
 
-    const inputRef2 = useRef(null);
-    const audioRef2 = useRef<HTMLAudioElement>(null);
-    const [audioSrc2, setAudioSrc2] = useState<string | null>(null);
-    const [isPlaying2, setIsPlaying2] = useState(false);
-    const [coverUrl2, setCoverUrl2] = useState<string | null>(null);
-
-    const [hiValue, setHiValue] = useState<number | null>(50);
-
-    const handlePlay = (deck: "left" | "right") => {
-        if(deck === "left") {
-            if(audioRef.current?.paused) {
-                audioRef.current?.play();
-                setIsPlaying(true);
-            } else {
-                audioRef.current?.pause();
-                setIsPlaying(false);
-
-                if (audioRef.current) {
-                    audioRef.current.currentTime = 0;
-                }
-            }
+    const handlePlay = () => {
+        if(audioRef.current?.paused) {
+            audioRef.current?.play().then(() => setIsPlaying(true));
         } else {
-            if(audioRef2.current?.paused) {
-                audioRef2.current?.play();
-                setIsPlaying2(true);
-            } else {
-                audioRef2.current?.pause();
-                setIsPlaying2(false);
+            audioRef.current?.pause();
+            setIsPlaying(false);
 
-                if (audioRef2.current) {
-                    audioRef2.current.currentTime = 0;
-                }
+            if (audioRef.current) {
+                audioRef.current.currentTime = 0;
             }
         }
     };
 
-    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if(e.currentTarget.parentElement?.className === "left") {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            inputRef.current?.click();
-        } else {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            inputRef2.current?.click();
-        }
+    const handleClick = () => {
+        inputRef.current?.click();
     };
 
     const generateThumbnail = (file: File): Promise<string> => {
@@ -85,22 +73,14 @@ function Player() {
         });
     };
 
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, deck: 'left' | 'right') => {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        if (deck === 'left') {
-            setIsPlaying(false);
-        } else {
-            setIsPlaying2(false);
-        }
+        setIsPlaying(false);
 
         const url = URL.createObjectURL(file);
-        if (deck === 'left') {
-            setAudioSrc(url);
-        } else {
-            setAudioSrc2(url);
-        }
+        setAudioSrc(url);
 
         const metadata = await parseBlob(file);
         const picture = metadata.common.picture?.[0];
@@ -109,240 +89,98 @@ function Player() {
             const blob = new Blob([picture.data], { type: picture.format });
             const url = URL.createObjectURL(blob);
 
-            if (deck === 'left') {
-                setCoverUrl(url);
-            } else {
-                setCoverUrl2(url);
-            }
+            setCoverUrl(url);
         } else if (file.type.startsWith("video/")) {
             const thumb = await generateThumbnail(file);
-            if (deck === 'left') {
-                setCoverUrl(thumb);
-            } else {
-                setCoverUrl2(thumb);
-            }
+            setCoverUrl(thumb);
         } else {
-            if (deck === 'left') {
-                setCoverUrl(null);
-            } else {
-                setCoverUrl2(null);
-            }
+            setCoverUrl(null);
         }
 
-        if (deck === 'left') {
-            audioRef.current?.addEventListener('ended', () => setIsPlaying(false));
-        } else {
-            audioRef2.current?.addEventListener('ended', () => setIsPlaying2(false));
-        }
+        audioRef.current?.addEventListener('ended', () => setIsPlaying(false));
     };
 
-    const handleSetTempo = (e: React.ChangeEvent<HTMLInputElement>, deck: "left" | "right") => {
+    const handleSetTempo = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newTempo = parseFloat(e.target.value);
 
-        if(deck === "left") {
-            if(audioRef.current) {
-                audioRef.current.playbackRate = newTempo;
-            }
-        } else {
-            if(audioRef2.current) {
-                audioRef2.current.playbackRate = newTempo;
-            }
+        if(audioRef.current) {
+            audioRef.current.playbackRate = newTempo;
         }
     };
 
-    const handleSetVolume = (e: React.ChangeEvent<HTMLInputElement>, deck: "left" | "right") => {
-        const newVolume = parseFloat(e.target.value);
+    useImperativeHandle(ref, () => ({
+        // Refs
+        inputRef: inputRef.current,
+        audioRef: audioRef.current,
 
-        if(deck === "left") {
-            if(audioRef.current) {
-                audioRef.current.volume = newVolume;
-            }
-        } else {
-            if(audioRef2.current) {
-                audioRef2.current.volume = newVolume;
-            }
-        }
-    }
+        // State getters
+        getAudioSrc: () => audioSrc,
+        getIsPlaying: () => isPlaying,
+        getCoverUrl: () => coverUrl,
+
+        // Direct state setters
+        setIsPlaying,
+        setAudioSrc,
+        setCoverUrl,
+    }), [audioSrc, isPlaying, coverUrl]);
 
     return (
     <>
-      <div className="controller">
-          <div className="left">
-              <div className={`jogwheel ${coverUrl && isPlaying ? 'spin' : ''} ${coverUrl ? 'loaded' : ''}`} onClick={(e) => handleClick(e)}>
-                  <input type="file" accept="video/*, audio/*" ref={inputRef} onChange={(e) => handleFileChange(e, "left")} className="hidden"/>
+      <div className={`${side === "none" ? "" : side}`}>
+          <div className={`jogwheel ${coverUrl && isPlaying ? 'spin' : ''} ${coverUrl ? 'loaded' : ''}`} onClick={handleClick}>
+              <input type="file" accept="video/*, audio/*" ref={inputRef} onChange={(e) => handleFileChange(e)} className="hidden"/>
 
-                  {coverUrl && (
-                      <img src={coverUrl} alt="Cover" className="w-48 h-48 object-cover rounded" />
-                  )}
+              {coverUrl && (
+                  <img src={coverUrl} alt="Cover" className="w-48 h-48 object-cover rounded" />
+              )}
 
-                  {audioSrc && (
-                      <audio src={audioSrc} ref={audioRef} className="hidden">
-                          Dein Browser unterstützt kein Audio.
-                      </audio>
-                  )}
+              {audioSrc && (
+                  <audio src={audioSrc} ref={audioRef} className="hidden">
+                      Dein Browser unterstützt kein Audio.
+                  </audio>
+              )}
 
-              </div>
-              <div className="controls">
-                  <div className="startMusicButtons">
-                      <div className="queButton">
-                          Que
-                      </div>
-                      <div className={`startButton ${!isPlaying && audioRef.current ? 'startButtonBlink' : ''}`} onClick={() => handlePlay("left")}>
-                          Play
-                      </div>
-                  </div>
-                  <div className="fxButtons">
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                  </div>
-                  <div className="tempoSlider">
-                      <div className="ticks">
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                      </div>
-                      <input
-                          type="range"
-                          min="0.0"
-                          defaultValue="1.0"
-                          max="2.0"
-                          step="0.01"
-                          onChange={(e) => handleSetTempo(e, "left")}
-                      />
-                  </div>
-              </div>
           </div>
-          <div className="center">
-              <div className="mixer">
-                  <div className="channel">
-                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'Hi'} onChange={(e) => setHiValue(e.value)} />
-                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'mid'} onChange={(e) => setHiValue(e.value)} />
-                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'low'} onChange={(e) => setHiValue(e.value)} />
-                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'cfx'} onChange={(e) => setHiValue(e.value)} />
-                      <div className="volumeSlider">
-                          <div className="ticks">
-                              <span className="tick"></span>
-                              <span className="tick"></span>
-                              <span className="tick"></span>
-                              <span className="tick"></span>
-                              <span className="tick"></span>
-                          </div>
-                          <input
-                              type="range"
-                              min="0.0"
-                              defaultValue="1.0"
-                              max="1.0"
-                              step="0.01"
-                              onChange={(e) => handleSetVolume(e, "left")}
-                          />
-                      </div>
+          <div className="controls">
+              <div className="startMusicButtons">
+                  <div className="queButton">
+                      Que
                   </div>
-                  <div className="channel">
-                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'Hi'} onChange={(e) => setHiValue(e.value)} />
-                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'mid'} onChange={(e) => setHiValue(e.value)} />
-                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'low'} onChange={(e) => setHiValue(e.value)} />
-                      <Knob size={45} valueColor="darkorange" rangeColor="black" value={hiValue ?? 0} valueTemplate={'cfx'} onChange={(e) => setHiValue(e.value)} />
-                      <div className="volumeSlider">
-                          <div className="ticks">
-                              <span className="tick"></span>
-                              <span className="tick"></span>
-                              <span className="tick"></span>
-                              <span className="tick"></span>
-                              <span className="tick"></span>
-                          </div>
-                          <input
-                              type="range"
-                              min="0.0"
-                              defaultValue="1.0"
-                              max="1.0"
-                              step="0.01"
-                              onChange={(e) => handleSetVolume(e, "right")}
-                          />
-                      </div>
+                  <div className={`startButton ${!isPlaying && audioRef.current ? 'startButtonBlink' : ''}`} onClick={() => handlePlay()}>
+                      Play
                   </div>
               </div>
-              <div className="positionSlider">
-                      <div className="ticks">
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                      </div>
-                      <input
-                          type="range"
-                          min="0.0"
-                          defaultValue="1.0"
-                          max="2.0"
-                          step="0.01"
-                          onChange={console.log}
-                      />
+              <div className="fxButtons">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
               </div>
-          </div>
-          <div className="right">
-              <div className={`jogwheel ${coverUrl2 && isPlaying2 ? 'spin' : ''} ${coverUrl2 ? 'loaded' : ''}`} onClick={(e) => handleClick(e)}>
-                  <input type="file" accept="video/*, audio/*" ref={inputRef2} onChange={(e) => handleFileChange(e, "right")} className="hidden"/>
-
-                  {coverUrl2 && (
-                      <img src={coverUrl2} alt="Cover" className="w-48 h-48 object-cover rounded" />
-                  )}
-
-                  {audioSrc2 && (
-                      <audio src={audioSrc2} ref={audioRef2} className="hidden">
-                          Dein Browser unterstützt kein Audio.
-                      </audio>
-                  )}
-
-              </div>
-              <div className="controls">
-                  <div className="startMusicButtons">
-                      <div className="queButton">
-                          Que
-                      </div>
-                      <div className={`startButton ${!isPlaying2 && audioRef2.current ? 'startButtonBlink' : ''}`} onClick={() => handlePlay("right")}>
-                          Play
-                      </div>
+              <div className="tempoSlider">
+                  <div className="ticks">
+                      <span className="tick"></span>
+                      <span className="tick"></span>
+                      <span className="tick"></span>
+                      <span className="tick"></span>
+                      <span className="tick"></span>
                   </div>
-                  <div className="fxButtons">
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                  </div>
-                  <div className="tempoSlider">
-                      <div className="ticks">
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                          <span className="tick"></span>
-                      </div>
-                      <input
-                          type="range"
-                          min="0.0"
-                          defaultValue="1.0"
-                          max="2.0"
-                          step="0.01"
-                          onChange={(e) => handleSetTempo(e, "right")}
-                      />
-                  </div>
+                  <input
+                      type="range"
+                      min="0.0"
+                      defaultValue="1.0"
+                      max="2.0"
+                      step="0.01"
+                      onChange={(e) => handleSetTempo(e)}
+                  />
               </div>
           </div>
       </div>
     </>
   )
-}
+});
 
-export default Player
+export default Player;

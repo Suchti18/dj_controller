@@ -1,10 +1,10 @@
-import './App.css'
+import './Player.css'
 import {useRef, useState} from "react";
 import * as React from "react";
 import {parseBlob} from "music-metadata-browser";
 import { Knob } from 'primereact/knob';
 
-function App() {
+function Player() {
     const inputRef = useRef(null);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [audioSrc, setAudioSrc] = useState<string | null>(null);
@@ -345,4 +345,4 @@ function App() {
   )
 }
 
-export default App
+export default Player

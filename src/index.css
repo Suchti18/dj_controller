@@ -12,11 +12,3 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.controller {
-  border: 1px solid black;
-  padding: 2rem 2rem;
-  display: flex;
-  text-align: center;
-  justify-content: center;
-}

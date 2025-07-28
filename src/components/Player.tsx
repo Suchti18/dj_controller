@@ -17,6 +17,9 @@ export interface DJPlayer {
     setIsPlaying: (playing: boolean) => void;
     setAudioSrc: (src: string | null) => void;
     setCoverUrl: (url: string | null) => void;
+
+    // Callback
+    setOnAudioReady: (callback: (audioElement: HTMLAudioElement) => void) => void;
 }
 
 interface DJPlayerProps {
@@ -29,6 +32,7 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
     const [audioSrc, setAudioSrc] = useState<string | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [coverUrl, setCoverUrl] = useState<string | null>(null);
+    const [onAudioReadyCallback, setOnAudioReadyCallback] = useState<((audioElement: HTMLAudioElement) => void) | null>(null);
 
     const handlePlay = () => {
         if(audioRef.current?.paused) {
@@ -54,7 +58,7 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
             video.src = URL.createObjectURL(file);
             video.crossOrigin = "anonymous";
             video.muted = true;
-            video.currentTime = 1; // Sekunde 1 (falls genug geladen)
+            video.currentTime = 1;
 
             video.onloadeddata = () => {
                 const canvas = document.createElement("canvas");
@@ -97,7 +101,13 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
             setCoverUrl(null);
         }
 
-        audioRef.current?.addEventListener('ended', () => setIsPlaying(false));
+        if(audioRef.current) {
+            if(onAudioReadyCallback) {
+                onAudioReadyCallback(audioRef.current);
+            }
+
+            audioRef.current?.addEventListener('ended', () => setIsPlaying(false));
+        }
     };
 
     const handleSetTempo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,10 +128,14 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
         getIsPlaying: () => isPlaying,
         getCoverUrl: () => coverUrl,
 
-        // Direct state setters
+        // State setters
         setIsPlaying,
         setAudioSrc,
         setCoverUrl,
+
+        setOnAudioReady: (callback: (audioElement: HTMLAudioElement) => void) => {
+            setOnAudioReadyCallback(() => callback);
+        },
     }), [audioSrc, isPlaying, coverUrl]);
 
     return (

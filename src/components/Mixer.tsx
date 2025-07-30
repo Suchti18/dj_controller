@@ -111,6 +111,19 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
         }
     }
 
+    const crossfade = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseFloat(e.target.value);
+
+        // https://github.com/cwilso/wubwubwub/blob/MixTrack/js/dj.js#L13-L14
+        const gain1 = Math.cos(value * 0.5 * Math.PI);
+        const gain2 = Math.cos((1.0-value) * 0.5 * Math.PI);
+
+        if(playerRefs[0].current?.audioRef && playerRefs[1].current?.audioRef) {
+            playerRefs[0].current.audioRef.volume = gain1
+            playerRefs[1].current.audioRef.volume = gain2
+        }
+    }
+
     return(
         <>
             <div className="center">
@@ -152,10 +165,10 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
                     <input
                         type="range"
                         min="0.0"
-                        defaultValue="1.0"
-                        max="2.0"
+                        defaultValue="0.5"
+                        max="1.0"
                         step="0.01"
-                        onChange={console.log}
+                        onChange={e => crossfade(e)}
                     />
                 </div>
             </div>

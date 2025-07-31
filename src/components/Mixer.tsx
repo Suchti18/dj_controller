@@ -13,11 +13,13 @@ interface ChannelEQValues {
     mid: number;
     hi: number;
     filter: number;
+    mainGain: number;
+    crossfadeGain: number;
 }
 
 export const Mixer = ({ playerRefs }: DJMixer) => {
     const [channelEQs, setChannelEQs] = useState<ChannelEQValues[]>(() =>
-        playerRefs.map(() => ({ low: 0, mid: 0, hi: 0, filter: 20 }))
+        playerRefs.map(() => ({ low: 0, mid: 0, hi: 0, filter: 20, mainGain: 1, crossfadeGain: 1 }))
     );
 
     const audioFiltersRef = useRef<{
@@ -25,6 +27,8 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
         mid: BiquadFilterNode;
         hi: BiquadFilterNode;
         filter: BiquadFilterNode;
+        mainGain: GainNode;
+        crossfadeGain: GainNode;
     }[]>([]);
 
     useEffect(() => {
@@ -59,14 +63,24 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
             filter.type = "lowpass"
             filter.connect(hi);
 
+            const mainGain = audioCtx.createGain()
+            mainGain.gain.value = 1
+            mainGain.connect(filter)
+
+            const crossfadeGain = audioCtx.createGain()
+            crossfadeGain.gain.value = 1
+            crossfadeGain.connect(mainGain)
+
             const sourceNode = audioCtx.createMediaElementSource(audioElement);
-            sourceNode.connect(filter);
+            sourceNode.connect(crossfadeGain);
 
             audioFiltersRef.current[channelIndex] = {
                 low,
                 mid,
                 hi,
-                filter
+                filter,
+                mainGain,
+                crossfadeGain
             };
         };
 
@@ -103,12 +117,11 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
         ));
     };
 
-    const handleSetVolume = (e: React.ChangeEvent<HTMLInputElement>, playerRef: RefObject<DJPlayer>) => {
-        const newVolume = parseFloat(e.target.value);
+    const handleSetVolume = (channelIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseFloat(e.target.value);
 
-        if(playerRef.current?.audioRef) {
-            playerRef.current.audioRef.volume = newVolume;
-        }
+        const filters = audioFiltersRef.current[channelIndex];
+        filters.mainGain.gain.value = value
     }
 
     const crossfade = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,17 +131,18 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
         const gain1 = Math.cos(value * 0.5 * Math.PI);
         const gain2 = Math.cos((1.0-value) * 0.5 * Math.PI);
 
-        if(playerRefs[0].current?.audioRef && playerRefs[1].current?.audioRef) {
-            playerRefs[0].current.audioRef.volume = gain1
-            playerRefs[1].current.audioRef.volume = gain2
-        }
+        const leftFilters = audioFiltersRef.current[0];
+        const rightFilters = audioFiltersRef.current[1];
+
+        leftFilters.crossfadeGain.gain.value = gain1;
+        rightFilters.crossfadeGain.gain.value = gain2
     }
 
     return(
         <>
             <div className="center">
                 <div className="mixer">
-                    {playerRefs.map((ref, index) => (
+                    {playerRefs.map((_ref, index) => (
                         <div className="channel">
                             <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.low ?? 0} min={-20} max={20} valueTemplate={'low'} onChange={(e) => updateChannelEQ(index, 'low', e.value)} />
                             <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.mid ?? 0} min={-20} max={20} valueTemplate={'mid'} onChange={(e) => updateChannelEQ(index, 'mid', e.value)} />
@@ -148,7 +162,7 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
                                     defaultValue="1.0"
                                     max="1.0"
                                     step="0.01"
-                                    onChange={(e) => handleSetVolume(e, ref)}
+                                    onChange={(e) => handleSetVolume(index, e)}
                                 />
                             </div>
                         </div>

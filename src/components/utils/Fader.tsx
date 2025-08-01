@@ -2,12 +2,16 @@ import * as React from "react";
 import './Fader.css'
 
 interface FaderProps {
-    tickAmount: number;
-    alignment: "horizontal" | "vertical";
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    tickAmount: number
+    max: number
+    min: number
+    defaultValue: number
+    step: number
+    alignment: "horizontal" | "vertical"
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Fader: React.FC<FaderProps> = ({ tickAmount, alignment, onChange}) => {
+const Fader: React.FC<FaderProps> = ({ tickAmount, alignment, onChange, min = 0, max, defaultValue, step = 0.01}) => {
 
     return (
         <>
@@ -19,10 +23,10 @@ const Fader: React.FC<FaderProps> = ({ tickAmount, alignment, onChange}) => {
                 </div>
                 <input
                     type="range"
-                    min="0.0"
-                    defaultValue="1.0"
-                    max="2.0"
-                    step="0.01"
+                    min={min}
+                    defaultValue={defaultValue}
+                    max={max}
+                    step={step}
                     onChange={onChange}
                 />
             </div>

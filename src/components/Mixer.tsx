@@ -3,6 +3,7 @@ import * as React from "react";
 import {RefObject, useEffect, useRef, useState} from "react";
 import {Knob} from 'primereact/knob';
 import {DJPlayer} from "./Player.tsx";
+import Fader from "./utils/Fader.tsx";
 
 interface DJMixer {
     playerRefs: RefObject<DJPlayer>[];
@@ -140,6 +141,9 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
         const value = parseFloat(e.target.value);
 
         const filters = audioFiltersRef.current[channelIndex];
+
+        if (!filters) return
+
         filters.mainGain.gain.value = value
     }
 
@@ -152,6 +156,8 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
 
         const leftFilters = audioFiltersRef.current[0];
         const rightFilters = audioFiltersRef.current[1];
+
+        if (!leftFilters || !rightFilters) return;
 
         leftFilters.crossfadeGain.gain.value = gain1;
         rightFilters.crossfadeGain.gain.value = gain2
@@ -168,42 +174,12 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
                             <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.hi ?? 0} min={-20} max={20} valueTemplate={'hi'} onChange={(e) => updateChannelEQ(index, 'hi', e.value)} />
                             <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.filter ?? 0} min={-20} max={20} valueTemplate={'filter'} onChange={(e) => updateChannelEQ(index, 'filter', e.value)}/>
                             <div className="volumeSlider">
-                                <div className="ticks">
-                                    <span className="tick"></span>
-                                    <span className="tick"></span>
-                                    <span className="tick"></span>
-                                    <span className="tick"></span>
-                                    <span className="tick"></span>
-                                </div>
-                                <input
-                                    type="range"
-                                    min="0.0"
-                                    defaultValue="1.0"
-                                    max="1.0"
-                                    step="0.01"
-                                    onChange={(e) => handleSetVolume(index, e)}
-                                />
+                                <Fader tickAmount={5} alignment={"vertical"} onChange={(e) => handleSetVolume(index, e)} max={1} min={0} defaultValue={1}/>
                             </div>
                         </div>
                     ))}
                 </div>
-                <div className="positionSlider">
-                    <div className="ticks">
-                        <span className="tick"></span>
-                        <span className="tick"></span>
-                        <span className="tick"></span>
-                        <span className="tick"></span>
-                        <span className="tick"></span>
-                    </div>
-                    <input
-                        type="range"
-                        min="0.0"
-                        defaultValue="0.5"
-                        max="1.0"
-                        step="0.01"
-                        onChange={e => crossfade(e)}
-                    />
-                </div>
+                <Fader tickAmount={5} alignment={"horizontal"} onChange={(e) => crossfade(e)} max={1} min={0} defaultValue={0.5}/>
             </div>
         </>
     )

@@ -175,7 +175,7 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
                   <div></div>
                   <div></div>
               </div>
-              <Fader tickAmount={5} alignment={"vertical"} onChange={handleSetTempo} />
+              <Fader tickAmount={5} alignment={"vertical"} onChange={handleSetTempo} max={2} defaultValue={1}/>
           </div>
       </div>
     </>

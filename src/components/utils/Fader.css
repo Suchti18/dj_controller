@@ -1,7 +1,91 @@
+/* Horizontal slider */
 .horizontal {
-
+    height: 3.5rem;
+    width: 7rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
+/* Tick marks */
+.horizontal .ticks {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+}
+
+.horizontal .ticks span {
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 2px solid black;
+    border-right: 0;
+}
+
+.horizontal .ticks span:first-child {
+    border-left: 0;
+    border-right: 4px solid black;
+}
+
+.horizontal .ticks span:last-child {
+    border-left: 4px solid black;
+    border-right: 0;
+}
+
+.horizontal .ticks span:nth-child(2) {
+    width: 2px;
+    height: 12px;
+    background-color: black;
+    border: none;
+}
+
+/* Input of type range */
+.horizontal > input[type=range] {
+    width: 100%;
+    height: 2px;
+    background: black;
+    margin: 0;
+    position: relative;
+    -webkit-appearance: none;
+}
+
+/* Track (Chrome & Safari)*/
+.horizontal > input[type=range]::-webkit-slider-runnable-track {
+    background: transparent;
+    height: 3px;
+    border-radius: 2px;
+}
+
+/* Thumb (Chrome & Safari)*/
+.horizontal > input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: -0.65rem;
+    height: 1.5rem;
+    width: 1rem;
+    border: 0.3vmin solid white;
+    border-radius: 2px;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* Thumb (Firefox) */
+.horizontal > input[type=range]::-moz-range-thumb {
+    height: 1.5rem;
+    width: 1rem;
+    border: 0.3vmin solid white;
+    border-radius: 2px;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* Vertical slider */
 .vertical {
     height: 7rem;
     width: 3.5rem;
@@ -37,7 +121,7 @@
     border-top: 0;
 }
 
-/* Slider */
+/* Input of type range */
 .vertical > input[type=range] {
     writing-mode: vertical-lr;
     direction: rtl;
@@ -49,14 +133,14 @@
     -webkit-appearance: none;
 }
 
-/* Track */
+/* Track (Chrome & Safari)*/
 .vertical > input[type=range]::-webkit-slider-runnable-track {
     background: transparent;
     border-radius: 2px;
     height: 3rem;
 }
 
-/* Thumb */
+/* Thumb (Chrome & Safari)*/
 .vertical > input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     margin-top: -1vh;

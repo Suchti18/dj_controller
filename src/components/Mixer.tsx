@@ -19,7 +19,7 @@ interface ChannelEQValues {
 
 export const Mixer = ({ playerRefs }: DJMixer) => {
     const [channelEQs, setChannelEQs] = useState<ChannelEQValues[]>(() =>
-        playerRefs.map(() => ({ low: 0, mid: 0, hi: 0, filter: 20, mainGain: 1, crossfadeGain: 1 }))
+        playerRefs.map(() => ({ low: 0, mid: 0, hi: 0, filter: 0, mainGain: 1, crossfadeGain: 1 }))
     );
 
     const audioFiltersRef = useRef<{
@@ -60,7 +60,7 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
 
             const filter = audioCtx.createBiquadFilter();
             filter.frequency.value = 20000.0;
-            filter.type = "lowpass"
+            filter.type = "allpass"
             filter.connect(hi);
 
             const mainGain = audioCtx.createGain()
@@ -103,8 +103,27 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
 
                 const minFreq = 200;
                 const maxFreq = 20000;
-                const normalizedValue = (channelEQ.filter + 20) / 40;
-                filters.filter.frequency.value = minFreq + (normalizedValue * (maxFreq - minFreq));
+                const sliderMax = 20;
+
+                const absValue = Math.abs(channelEQ.filter);
+                const normalized = absValue / sliderMax; // ∈ [0, 1]
+                const logMin = Math.log10(minFreq);
+                const logMax = Math.log10(maxFreq);
+
+                let logFreq;
+                if (channelEQ.filter < 0) {
+                    filters.filter.type = "lowpass";
+                    logFreq = logMax - normalized * (logMax - logMin);
+                } else if (channelEQ.filter > 0) {
+                    filters.filter.type = "highpass";
+                    logFreq = logMin + normalized * (logMax - logMin);
+                } else {
+                    filters.filter.type = "allpass";
+                    filters.filter.frequency.value = maxFreq;
+                    return;
+                }
+
+                filters.filter.frequency.value = Math.pow(10, logFreq);
             }
         });
     }, [channelEQs]);

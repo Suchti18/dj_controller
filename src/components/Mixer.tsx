@@ -174,12 +174,12 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
                             <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.hi ?? 0} min={-20} max={20} valueTemplate={'hi'} onChange={(e) => updateChannelEQ(index, 'hi', e.value)} />
                             <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.filter ?? 0} min={-20} max={20} valueTemplate={'filter'} onChange={(e) => updateChannelEQ(index, 'filter', e.value)}/>
                             <div className="volumeSlider">
-                                <Fader tickAmount={5} alignment={"vertical"} onChange={(e) => handleSetVolume(index, e)} max={1} min={0} defaultValue={1}/>
+                                <Fader tickAmount={5} alignment={"vertical"} onChange={(e) => handleSetVolume(index, e)} max={1} min={0} defaultValue={1} step={0.01}/>
                             </div>
                         </div>
                     ))}
                 </div>
-                <Fader tickAmount={5} alignment={"horizontal"} onChange={(e) => crossfade(e)} max={1} min={0} defaultValue={0.5}/>
+                <Fader tickAmount={5} alignment={"horizontal"} onChange={(e) => crossfade(e)} max={1} min={0} defaultValue={0.5} step={0.01}/>
             </div>
         </>
     )

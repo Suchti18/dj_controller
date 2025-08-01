@@ -11,7 +11,7 @@ interface FaderProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Fader: React.FC<FaderProps> = ({ tickAmount, alignment, onChange, min = 0, max, defaultValue, step = 0.01}) => {
+const Fader: React.FC<FaderProps> = ({ tickAmount, alignment, onChange, min, max, defaultValue, step}) => {
 
     return (
         <>

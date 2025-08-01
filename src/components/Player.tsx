@@ -2,6 +2,7 @@ import './Player.css'
 import {forwardRef, useImperativeHandle, useRef, useState} from "react";
 import * as React from "react";
 import {parseBlob} from "music-metadata-browser";
+import Fader from "./utils/Fader.tsx";
 
 export interface DJPlayer {
     // Refs
@@ -174,23 +175,7 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
                   <div></div>
                   <div></div>
               </div>
-              <div className="tempoSlider">
-                  <div className="ticks">
-                      <span className="tick"></span>
-                      <span className="tick"></span>
-                      <span className="tick"></span>
-                      <span className="tick"></span>
-                      <span className="tick"></span>
-                  </div>
-                  <input
-                      type="range"
-                      min="0.0"
-                      defaultValue="1.0"
-                      max="2.0"
-                      step="0.01"
-                      onChange={(e) => handleSetTempo(e)}
-                  />
-              </div>
+              <Fader tickAmount={5} alignment={"vertical"} onChange={handleSetTempo} />
           </div>
       </div>
     </>

@@ -9,15 +9,10 @@ Use the online version: _[DJ Controller on Vercel](https://djcontroller.vercel.a
 ### How to Use
 
 - Click on a jog wheel
-- Press the play button to start playback
-
-### 🎧 Features
-
-- Play two different audio tracks
-- Adjust playback tempo
+- Press the play button
 
 ---
-## 🛠️ Run locally
+## Run locally
 
 ### Requirements
 
@@ -54,7 +49,7 @@ Visit: http://localhost:5173
 ## 🤖 AI Disclaimer
 
 AI helped in following areas:
-* Debugging and developing
+* Debugging
 * README creation
 
 ---

@@ -167,7 +167,7 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
         <>
             <div className="center">
                 <div className="mixer">
-                    {playerRefs.map((_ref, index) => (
+                    {playerRefs.map((_, index) => (
                         <div className="channel">
                             <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.low ?? 0} min={-20} max={20} valueTemplate={'low'} onChange={(e) => updateChannelEQ(index, 'low', e.value)} />
                             <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.mid ?? 0} min={-20} max={20} valueTemplate={'mid'} onChange={(e) => updateChannelEQ(index, 'mid', e.value)} />

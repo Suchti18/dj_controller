@@ -1,0 +1,11 @@
+.ascii-art {
+    position: absolute;
+    white-space: pre;
+    pointer-events: none;
+    opacity: 0.15;
+    font-size: 12px;
+    line-height: 12px;
+    user-select: none;
+    color: darkorange;
+    font-family: monospace;
+}

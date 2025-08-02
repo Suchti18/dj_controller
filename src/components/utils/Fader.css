@@ -39,7 +39,7 @@
     border-right: 0;
 }
 
-.horizontal .ticks span:nth-child(2) {
+.horizontal .ticks span:not(:first-child):not(:last-child) {
     width: 2px;
     height: 12px;
     background-color: black;

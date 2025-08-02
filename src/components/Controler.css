@@ -1,7 +1,9 @@
 .controller {
-    border: 1px solid black;
     padding: 2rem 2rem;
     display: flex;
-    text-align: center;
     justify-content: center;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 0 10px 10px darkorange;
 }

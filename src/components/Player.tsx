@@ -3,6 +3,7 @@ import {forwardRef, useImperativeHandle, useRef, useState} from "react";
 import * as React from "react";
 import {parseBlob} from "music-metadata-browser";
 import Fader from "./utils/Fader.tsx";
+import purpleFallbackCover from '../assets/purple-cover.png';
 
 export interface DJPlayer {
     // Refs
@@ -52,7 +53,7 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
         inputRef.current?.click();
     };
 
-    const generateThumbnail = (file: File): Promise<string> => {
+    const getThumbnail = (file: File): Promise<string> => {
         return new Promise((resolve) => {
             const video = document.createElement("video");
 
@@ -87,19 +88,24 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
         const url = URL.createObjectURL(file);
         setAudioSrc(url);
 
-        const metadata = await parseBlob(file);
-        const picture = metadata.common.picture?.[0];
+        // Cover
+        try {
+            const metadata = await parseBlob(file);
+            const picture = metadata.common.picture?.[0];
 
-        if (picture) {
-            const blob = new Blob([picture.data], { type: picture.format });
-            const url = URL.createObjectURL(blob);
+            if (picture) {
+                const blob = new Blob([picture.data], { type: picture.format });
+                const url = URL.createObjectURL(blob);
 
-            setCoverUrl(url);
-        } else if (file.type.startsWith("video/")) {
-            const thumb = await generateThumbnail(file);
-            setCoverUrl(thumb);
-        } else {
-            setCoverUrl(null);
+                setCoverUrl(url);
+            } else if (file.type.startsWith("video/")) {
+                const thumb = await getThumbnail(file);
+                setCoverUrl(thumb);
+            } else {
+                setCoverUrl(purpleFallbackCover);
+            }
+        } catch {
+            setCoverUrl(purpleFallbackCover);
         }
 
         if(audioRef.current) {

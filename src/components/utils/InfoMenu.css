@@ -1,0 +1,8 @@
+.infoMenuIcon {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    height: auto;
+    opacity: 0.3;
+    color: darkorange;
+}

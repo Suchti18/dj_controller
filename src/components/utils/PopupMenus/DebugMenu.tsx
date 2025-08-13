@@ -7,6 +7,7 @@ const DebugMenu = () => {
             <img
                 className="debugMenuIcon"
                 src={debugIcon}
+                alt="debugMenuIcon"
                 height="32"
                 width="32"
                 onClick={console.log}

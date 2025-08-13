@@ -8,8 +8,11 @@ Use the online version: _[DJ Controller on Vercel](https://djcontroller.vercel.a
 
 ### How to Use
 
-- Click on a jog wheel
-- Press the play button
+1. Click on a jog wheel
+2. Press the play button
+3. Mix up your songs
+
+Take a look at the [samples songs](./samples) if you need some music
 
 ---
 ## Run locally

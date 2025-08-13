@@ -1,6 +1,6 @@
 import {useRef} from "react";
-import Player, {DJPlayer} from "./Player.tsx";
-import Mixer from "./Mixer.tsx";
+import Player, {DJPlayer} from "./sections/Player.tsx";
+import Mixer from "./sections/Mixer.tsx";
 import "./Controler.css"
 
 function Controller() {

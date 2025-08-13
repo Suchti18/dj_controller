@@ -3,7 +3,7 @@ import * as React from "react";
 import {RefObject, useEffect, useRef, useState} from "react";
 import {Knob} from 'primereact/knob';
 import {DJPlayer} from "./Player.tsx";
-import Fader from "./utils/Fader.tsx";
+import Fader from "../../utils/Controls/Fader.tsx";
 
 interface DJMixer {
     playerRefs: RefObject<DJPlayer>[];

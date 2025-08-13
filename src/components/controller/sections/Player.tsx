@@ -2,8 +2,8 @@ import './Player.css'
 import {forwardRef, useImperativeHandle, useRef, useState} from "react";
 import * as React from "react";
 import {parseBlob} from "music-metadata-browser";
-import Fader from "./utils/Fader.tsx";
-import purpleFallbackCover from '../assets/purple-cover.png';
+import Fader from "../../utils/Controls/Fader.tsx";
+import purpleFallbackCover from '../../../assets/purple-cover.png';
 
 export interface DJPlayer {
     // Refs

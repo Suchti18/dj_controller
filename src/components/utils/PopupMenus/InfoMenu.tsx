@@ -1,4 +1,4 @@
-import infoIcon from '../../assets/info.svg';
+import infoIcon from '../../../assets/info.svg';
 import './InfoMenu.css';
 
 const InfoMenu = () => {

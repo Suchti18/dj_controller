@@ -1,4 +1,4 @@
-import debugIcon from '../../assets/debug.svg';
+import debugIcon from '../../../assets/debug.svg';
 import './DebugMenu.css';
 
 const DebugMenu = () => {

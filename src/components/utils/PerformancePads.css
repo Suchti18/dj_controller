@@ -1,0 +1,16 @@
+.fxButtons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 0.2rem;
+    padding-top: 0.5rem;
+}
+
+.fxButtons > div {
+    border: 3px solid darkorange;
+    padding: 10px;
+    height: 1rem;
+    width: 1rem;
+    font-size: 30px;
+    text-align: center;
+    cursor: pointer;
+}

@@ -4,6 +4,7 @@ import * as React from "react";
 import {parseBlob} from "music-metadata-browser";
 import Fader from "../../utils/Controls/Fader.tsx";
 import purpleFallbackCover from '../../../assets/purple-cover.png';
+import PerformancePads from "../../utils/PerformancePads.tsx";
 
 export interface DJPlayer {
     // Refs
@@ -35,6 +36,7 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [coverUrl, setCoverUrl] = useState<string | null>(null);
     const [onAudioReadyCallback, setOnAudioReadyCallback] = useState<((audioElement: HTMLAudioElement) => void) | null>(null);
+    const [quePosition, setQuePosition] = useState<number | null>(null);
 
     const handlePlay = () => {
         if(audioRef.current?.paused) {
@@ -48,6 +50,13 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
             }
         }
     };
+
+    const handleQue = () => {
+        if(audioRef.current) {
+            setQuePosition(audioRef.current.currentTime)
+            console.log(quePosition)
+        }
+    }
 
     const handleClick = () => {
         inputRef.current?.click();
@@ -164,23 +173,23 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
           </div>
           <div className="controls">
               <div className="startMusicButtons">
-                  <div className="queButton">
+                  <div
+                      className={`queButton ${!isPlaying && audioRef.current ? 'queButtonBlink' : ''}`}
+                      onClick={handleQue}
+                      onMouseDown={handleQue}
+                      onMouseUp={handleQue}
+                      onMouseLeave={handleQue}
+                  >
                       Que
                   </div>
-                  <div className={`startButton ${!isPlaying && audioRef.current ? 'startButtonBlink' : ''}`} onClick={() => handlePlay()}>
+                  <div
+                      className={`startButton ${!isPlaying && audioRef.current ? 'startButtonBlink' : ''}`}
+                      onClick={handlePlay}
+                  >
                       Play
                   </div>
               </div>
-              <div className="fxButtons">
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-              </div>
+              <PerformancePads amount={8}/>
               <Fader tickAmount={5} alignment={"vertical"} onChange={handleSetTempo} max={2} min={0} defaultValue={1} step={0.01}/>
           </div>
       </div>

@@ -172,6 +172,13 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
         },
     }), [audioSrc, isPlaying, coverUrl]);
 
+    // Add keyboard controls
+    window.addEventListener("keydown", (e) => {
+        if(e.code === "Space") {
+            handlePlay();
+        }
+    })
+
     return (
     <>
       <div className={`${side === "none" ? "" : side}`}>

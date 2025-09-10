@@ -1,10 +1,10 @@
 # DJ Controller
 
-A web-based DJ controller with basic functionality, built with **React** and **Vite**.
+A web-based DJ controller with basic functionality, built with React and Vite.
 
 ## Usage
 
-Use the online version: _[DJ Controller on Vercel](https://djcontroller.vercel.app)_ or run it locally
+Visit: [DJ Controller on Vercel](https://djcontroller.vercel.app)
 
 ### How to Use
 
@@ -13,6 +13,19 @@ Use the online version: _[DJ Controller on Vercel](https://djcontroller.vercel.a
 3. Mix up your songs
 
 Take a look at the [samples songs](./samples) if you need some music
+
+### Controls
+
+| Button                                          | Description                                                                   |
+|-------------------------------------------------|-------------------------------------------------------------------------------|
+| ![Pitch button Picture](./.github/PitchBtn.png) | Use the preserve pitch button to preserve the pitch when speeding up the song |
+| ![Reset button Picture](./.github/ResetBtn.png) | Use it to reset the que point                                                 |
+| ![Jump button Picture](./.github/JumpBtn.png)   | Jump to the que point                                                         |
+
+| Key   | Description         |
+|-------|---------------------|
+| `Space` | Start/Stop the song |
+
 
 ---
 ## Run locally
@@ -45,7 +58,8 @@ Start the development server:
 npm run dev
 ```
 
-Visit: http://localhost:5173
+## Example
+![Example Picture](./.github/Example.png)
 
 ---
 
@@ -53,7 +67,6 @@ Visit: http://localhost:5173
 
 AI helped in following areas:
 * Debugging
-* README creation
 
 ---
 

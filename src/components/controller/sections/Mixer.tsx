@@ -20,7 +20,7 @@ interface ChannelEQValues {
 
 export const Mixer = ({ playerRefs }: DJMixer) => {
     const [channelEQs, setChannelEQs] = useState<ChannelEQValues[]>(() =>
-        playerRefs.map(() => ({ low: 0, mid: 0, hi: 0, filter: 0, mainGain: 1, crossfadeGain: 1 }))
+        playerRefs.map(() => ({low: 0, mid: 0, hi: 0, filter: 0, mainGain: 1, crossfadeGain: 1 }))
     );
 
     const audioFiltersRef = useRef<{
@@ -168,18 +168,70 @@ export const Mixer = ({ playerRefs }: DJMixer) => {
             <div className="center">
                 <div className="mixer">
                     {playerRefs.map((_, index) => (
-                        <div className="channel">
-                            <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.low ?? 0} min={-20} max={20} valueTemplate={'low'} onChange={(e) => updateChannelEQ(index, 'low', e.value)} />
-                            <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.mid ?? 0} min={-20} max={20} valueTemplate={'mid'} onChange={(e) => updateChannelEQ(index, 'mid', e.value)} />
-                            <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.hi ?? 0} min={-20} max={20} valueTemplate={'hi'} onChange={(e) => updateChannelEQ(index, 'hi', e.value)} />
-                            <Knob size={45} valueColor="darkorange" rangeColor="black" value={channelEQs[index]?.filter ?? 0} min={-20} max={20} valueTemplate={'filter'} onChange={(e) => updateChannelEQ(index, 'filter', e.value)}/>
+                        <div className="channel" key={index}>
+                            <Knob
+                                size={45}
+                                valueColor="darkorange"
+                                rangeColor="black"
+                                value={channelEQs[index]?.low ?? 0}
+                                min={-20}
+                                max={20}
+                                valueTemplate={'low'}
+                                onChange={(e) => updateChannelEQ(index, 'low', e.value)}
+                            />
+                            <Knob
+                                size={45}
+                                valueColor="darkorange"
+                                rangeColor="black"
+                                value={channelEQs[index]?.mid ?? 0}
+                                min={-20}
+                                max={20}
+                                valueTemplate={'mid'}
+                                onChange={(e) => updateChannelEQ(index, 'mid', e.value)}
+                            />
+                            <Knob
+                                size={45}
+                                valueColor="darkorange"
+                                rangeColor="black"
+                                value={channelEQs[index]?.hi ?? 0}
+                                min={-20}
+                                max={20}
+                                valueTemplate={'hi'}
+                                onChange={(e) => updateChannelEQ(index, 'hi', e.value)}
+                            />
+                            <Knob
+                                size={45}
+                                valueColor="darkorange"
+                                rangeColor="black"
+                                value={channelEQs[index]?.filter ?? 0}
+                                min={-20}
+                                max={20}
+                                valueTemplate={'filter'}
+                                onChange={(e) => updateChannelEQ(index, 'filter', e.value)}
+                            />
                             <div className="volumeSlider">
-                                <Fader tickAmount={5} alignment={"vertical"} onChange={(e) => handleSetVolume(index, e)} max={1} min={0} defaultValue={1} step={0.01}/>
+                                <Fader
+                                    tickAmount={5}
+                                    alignment={"vertical"}
+                                    onChange={(e) => handleSetVolume(index, e)}
+                                    max={1}
+                                    min={0}
+                                    defaultValue={1}
+                                    step={0.01}
+                                />
                             </div>
                         </div>
                     ))}
                 </div>
-                <Fader tickAmount={5} alignment={"horizontal"} onChange={(e) => crossfade(e)} max={1} min={0} defaultValue={0.5} step={0.01}/>
+                <Fader
+                    tickAmount={5}
+                    alignment={"horizontal"}
+                    onChange={(e) => crossfade(e)}
+                    max={1}
+                    min={0}
+                    defaultValue={0.5}
+                    step={0.01}
+                />
             </div>
         </>
     )

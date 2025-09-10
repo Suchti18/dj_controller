@@ -37,6 +37,7 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
     const [coverUrl, setCoverUrl] = useState<string | null>(null);
     const [onAudioReadyCallback, setOnAudioReadyCallback] = useState<((audioElement: HTMLAudioElement) => void) | null>(null);
     const [quePosition, setQuePosition] = useState<number | null>(null);
+    const [preservePitch, setPreservePitch] = useState(false);
 
     const handlePlay = () => {
         if(audioRef.current?.paused) {
@@ -54,11 +55,27 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
     const handleQue = () => {
         if(audioRef.current) {
             setQuePosition(audioRef.current.currentTime)
-            console.log(quePosition)
         }
     }
 
-    const handleClick = () => {
+    const handleResetQue = () => {
+        setQuePosition(null);
+    }
+
+    const handleJmpToQue = () => {
+        if(audioRef.current && quePosition != null) {
+            audioRef.current.currentTime = quePosition;
+        }
+    }
+
+    const handleTogglePreservePitch = () => {
+        if(audioRef.current) {
+            audioRef.current.preservesPitch = !preservePitch;
+            setPreservePitch(audioRef.current.preservesPitch);
+        }
+    }
+
+    const handleJogWheelClick = () => {
         inputRef.current?.click();
     };
 
@@ -93,6 +110,7 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
         if (!file) return;
 
         setIsPlaying(false);
+        handleResetQue();
 
         const url = URL.createObjectURL(file);
         setAudioSrc(url);
@@ -157,7 +175,7 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
     return (
     <>
       <div className={`${side === "none" ? "" : side}`}>
-          <div className={`jogwheel ${coverUrl && isPlaying ? 'spin' : ''} ${coverUrl ? 'loaded' : ''}`} onClick={handleClick}>
+          <div className={`jogwheel ${coverUrl && isPlaying ? 'spin' : ''} ${coverUrl ? 'loaded' : ''}`} onClick={handleJogWheelClick}>
               <input type="file" accept="video/*, audio/*" ref={inputRef} onChange={(e) => handleFileChange(e)} className="hidden"/>
 
               {coverUrl && (
@@ -166,19 +184,36 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
 
               {audioSrc && (
                   <audio src={audioSrc} ref={audioRef} className="hidden">
-                      Dein Browser unterstützt kein Audio.
+                      Your browser does not support audio.
                   </audio>
               )}
 
+          </div>
+          <div className="queControls">
+              <div
+                  className="resetQue"
+                  onClick={handleResetQue}
+              >
+                  Res
+              </div>
+              <div
+                  className="jumpToQue"
+                  onClick={handleJmpToQue}
+              >
+                  Jmp
+              </div>
+              <div
+                  className={preservePitch  ? 'preservePitch' : 'preservePitchDisabled'}
+                  onClick={handleTogglePreservePitch}
+              >
+                  P
+              </div>
           </div>
           <div className="controls">
               <div className="startMusicButtons">
                   <div
                       className={`queButton ${!isPlaying && audioRef.current ? 'queButtonBlink' : ''}`}
                       onClick={handleQue}
-                      onMouseDown={handleQue}
-                      onMouseUp={handleQue}
-                      onMouseLeave={handleQue}
                   >
                       Que
                   </div>

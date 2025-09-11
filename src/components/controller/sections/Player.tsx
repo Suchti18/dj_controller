@@ -38,6 +38,7 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
     const [onAudioReadyCallback, setOnAudioReadyCallback] = useState<((audioElement: HTMLAudioElement) => void) | null>(null);
     const [quePosition, setQuePosition] = useState<number | null>(null);
     const [preservePitch, setPreservePitch] = useState(false);
+    const [tempo, setTempo] = useState<number>(1);
 
     const handlePlay = () => {
         if(audioRef.current?.paused) {
@@ -140,6 +141,8 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
                 onAudioReadyCallback(audioRef.current);
             }
 
+            audioRef.current.preservesPitch = preservePitch;
+            audioRef.current.playbackRate = tempo
             audioRef.current?.addEventListener('ended', () => setIsPlaying(false));
         }
     };
@@ -148,7 +151,8 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
         const newTempo = parseFloat(e.target.value);
 
         if(audioRef.current) {
-            audioRef.current.playbackRate = newTempo;
+            setTempo(newTempo);
+            audioRef.current.playbackRate = tempo;
         }
     };
 
@@ -172,10 +176,25 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
         },
     }), [audioSrc, isPlaying, coverUrl]);
 
+    // TODO: Fix bug that key events are fired multiple times because player exits two times
     // Add keyboard controls
     window.addEventListener("keydown", (e) => {
+        if (e.repeat) return;
+
         if(e.code === "Space") {
             handlePlay();
+        } else if (e.code === "KeyQ") {
+            handleQue();
+        } else if (e.code === "KeyJ") {
+            handleJmpToQue();
+        } else if (e.code === "KeyR") {
+            handleResetQue();
+        } else if (e.code === "KeyP") {
+            handleTogglePreservePitch();
+        } else if (e.code === "KeyC") {
+            handleJogWheelClick();
+        } else if(Number(e.key) >= 1 && Number(e.key) <= 8) {
+            console.log(e.key + " Pressed");
         }
     })
 

@@ -22,9 +22,15 @@ Take a look at the [samples songs](./samples) if you need some music
 | ![Reset button Picture](./.github/ResetBtn.png) | Use it to reset the que point                                                 |
 | ![Jump button Picture](./.github/JumpBtn.png)   | Jump to the que point                                                         |
 
-| Key   | Description         |
-|-------|---------------------|
-| `Space` | Start/Stop the song |
+| Key     | Description                        |
+|---------|------------------------------------|
+| `Space` | Start/Stop the song                |
+| `Q`     | Que button                         |
+| `J`     | Jump to que point                  |
+| `R`     | Reset que point                    |
+| `P`     | Toggle preserve pitch              |
+| `C`     | Select new Songs                   |
+| `1 - 8` | Play performance pad sound effects |
 
 
 ---

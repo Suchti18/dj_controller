@@ -23,6 +23,14 @@ export interface DJPlayer {
 
     // Callback
     setOnAudioReady: (callback: (audioElement: HTMLAudioElement) => void) => void;
+
+    // Functions
+    handleQue: () => void;
+    handlePlay: () => void;
+    handleResetQue: () => void;
+    handleJmpToQue: () => void;
+    handleJogWheelClick: () => void;
+    handleTogglePreservePitch: () => void;
 }
 
 interface DJPlayerProps {
@@ -174,29 +182,16 @@ const Player = forwardRef<DJPlayer, DJPlayerProps>(({ side = "none" }, ref) => {
         setOnAudioReady: (callback: (audioElement: HTMLAudioElement) => void) => {
             setOnAudioReadyCallback(() => callback);
         },
-    }), [audioSrc, isPlaying, coverUrl]);
 
-    // TODO: Fix bug that key events are fired multiple times because player exits two times
-    // Add keyboard controls
-    window.addEventListener("keydown", (e) => {
-        if (e.repeat) return;
+        // Functions
+        handleQue,
+        handlePlay,
+        handleResetQue,
+        handleJmpToQue,
+        handleJogWheelClick,
+        handleTogglePreservePitch,
 
-        if(e.code === "Space") {
-            handlePlay();
-        } else if (e.code === "KeyQ") {
-            handleQue();
-        } else if (e.code === "KeyJ") {
-            handleJmpToQue();
-        } else if (e.code === "KeyR") {
-            handleResetQue();
-        } else if (e.code === "KeyP") {
-            handleTogglePreservePitch();
-        } else if (e.code === "KeyC") {
-            handleJogWheelClick();
-        } else if(Number(e.key) >= 1 && Number(e.key) <= 8) {
-            console.log(e.key + " Pressed");
-        }
-    })
+    }), [handleJmpToQue, handleTogglePreservePitch, audioSrc, isPlaying, coverUrl]);
 
     return (
     <>

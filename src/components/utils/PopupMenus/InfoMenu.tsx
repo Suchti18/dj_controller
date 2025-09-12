@@ -24,18 +24,18 @@ const InfoMenu = () => {
         if (!menu) {
             menu = document.createElement("div");
             menu.id = "menu";
-            menu.setAttribute("role", "dialog");
-            menu.setAttribute("aria-modal", "true");
-
-            const title = document.createElement("h2");
-            title.textContent = "Information";
+            menu.innerHTML = `
+                <h2>Information</h2>
+                <p>Visit the <a href="https://github.com/Suchti18/dj_controller" target="_blank" rel="noopener noreferrer">GitHub Repository</a></p>
+                <p>Version: X.X.X</p>
+                <p>Made with &#x2764;&#xFE0F; by Nils in <img src="https://flagcdn.com/24x18/de.png" alt="Flag of Germany"></p>`;
 
             const closeBtn = document.createElement("button");
             closeBtn.type = "button";
-            closeBtn.textContent = "Close";
+            closeBtn.innerHTML = "&times;";
+            closeBtn.classList.add("close-btn");
             closeBtn.addEventListener("click", closeMenu);
 
-            menu.appendChild(title);
             menu.appendChild(closeBtn);
             document.body.appendChild(menu);
         }

@@ -35,7 +35,7 @@ const PerformancePads: React.FC<PerformancePadsProps> = ({ amount }) => {
                 ))}
             </div>
             {audioSrc && (
-                <audio src={audioSrc} ref={audioRef} className="hidden">
+                <audio src={audioSrc} ref={audioRef} className="hidden" autoPlay={true}>
                     Your browser does not support audio.
                 </audio>
             )}

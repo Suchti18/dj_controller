@@ -3,27 +3,27 @@ import './InfoMenu.css';
 
 const InfoMenu = () => {
     const closeMenu = () => {
-        const overlay = document.getElementById("overlay");
-        const menu = document.getElementById("menu");
+        const overlay = document.getElementById("infoOverlay");
+        const menu = document.getElementById("infoMenu");
 
         if (overlay) overlay.style.display = "none";
         if (menu) menu.style.display = "none";
     }
 
     const openInfoMenu = () => {
-        let overlay = document.getElementById("overlay");
-        let menu = document.getElementById("menu");
+        let overlay = document.getElementById("infoOverlay");
+        let menu = document.getElementById("infoMenu");
 
         if (!overlay) {
             overlay = document.createElement("div");
-            overlay.id = "overlay";
+            overlay.id = "infoOverlay";
             document.body.appendChild(overlay);
             overlay.addEventListener("click", closeMenu);
         }
 
         if (!menu) {
             menu = document.createElement("div");
-            menu.id = "menu";
+            menu.id = "infoMenu";
             menu.innerHTML = `
                 <h2>Information</h2>
                 <p>Visit the <a href="https://github.com/Suchti18/dj_controller" target="_blank" rel="noopener noreferrer">GitHub Repository</a></p>
@@ -33,7 +33,7 @@ const InfoMenu = () => {
             const closeBtn = document.createElement("button");
             closeBtn.type = "button";
             closeBtn.innerHTML = "&times;";
-            closeBtn.classList.add("close-btn");
+            closeBtn.classList.add("info-close-btn");
             closeBtn.addEventListener("click", closeMenu);
 
             menu.appendChild(closeBtn);

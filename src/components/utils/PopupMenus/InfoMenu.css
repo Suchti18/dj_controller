@@ -7,7 +7,8 @@
     color: darkorange;
 }
 
-#overlay {
+/* TODO: Fix duplicate code */
+#infoOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -18,7 +19,7 @@
     z-index: 999;
 }
 
-#menu {
+#infoMenu {
     font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", serif;
     position: fixed;
     top: 50%;
@@ -32,7 +33,7 @@
     z-index: 1000;
 }
 
-#menu .close-btn {
+#infoMenu .info-close-btn {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -46,6 +47,6 @@
     transition: color 0.2s ease;
 }
 
-#menu .close-btn:hover {
+#infoMenu .info-close-btn:hover {
     color: #ff0000;
 }
